@@ -2,7 +2,9 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'sinatra/flash'
 require 'omniauth-github'
+require 'pry'
 
+require_relative 'app_methods'
 require_relative 'config/application'
 
 Dir['app/**/*.rb'].each { |file| require_relative file }
@@ -18,26 +20,17 @@ helpers do
   end
 end
 
-def set_current_user(user)
-  session[:user_id] = user.id
-end
-
-def authenticate!
-  unless signed_in?
-    flash[:notice] = 'You need to sign in if you want to do that!'
-    redirect '/'
-  end
-end
-
-def list_of_meetups
-  meetups = Meetup.all()
-  meetups = meetups.sort_by{|meetup| meetup.name}
-  return meetups
-end
-
 get '/' do
   @meetups = list_of_meetups
   erb :index
+end
+
+get '/meetups/:id' do
+  @user_id = session[:user_id]
+  meetup_id = params[:id]
+  @meetup = Meetup.find(meetup_id)
+  #binding.pry
+  erb :meetup
 end
 
 get '/auth/github/callback' do

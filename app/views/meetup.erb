@@ -1,0 +1,8 @@
+<h1><%= @meetup.name %></h1>
+<ul>
+  <% @meetup.attributes.each do |attr_name, attr_value| %>
+    <p>
+      <%=attr_name%>: <%= attr_value%>
+    </p>
+  <% end %>
+</ul>
