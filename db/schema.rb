@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20140610182234) do
     t.string   "name",        null: false
     t.string   "description", null: false
     t.string   "location",    null: false
-    t.string   "creator_id",  null: false
+    t.string   "user_id",     null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

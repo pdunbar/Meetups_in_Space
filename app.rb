@@ -29,7 +29,14 @@ def authenticate!
   end
 end
 
+def list_of_meetups
+  meetups = Meetup.all()
+  meetups = meetups.sort_by{|meetup| meetup.name}
+  return meetups
+end
+
 get '/' do
+  @meetups = list_of_meetups
   erb :index
 end
 
