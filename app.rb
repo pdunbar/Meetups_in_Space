@@ -25,6 +25,26 @@ get '/' do
   erb :index
 end
 
+get '/new_meetup' do
+  erb :new_meetup
+end
+
+post '/new_meetup' do
+  @user_id = session[:user_id]
+  if @user_id == nil
+    erb :new_meetup
+  else
+    meetup = Meetup.new()
+    meetup.name = params["name"]
+    meetup.description = params["description"]
+    meetup.location = params["location"]
+    meetup.user_id = @user_id
+    meetup.save
+    redirect "/meetups/#{meetup.id}"
+  end
+end
+
+
 get '/meetups/:id' do
   @user_id = session[:user_id]
   meetup_id = params[:id]

@@ -24,6 +24,10 @@ a:visited {
   float: right;
 }
 
+#meetup_form input, #meetup_form textarea {
+  color: black;
+}
+
 .top-bar-section li {
   display: inline-block;
   margin-left: 1em;
