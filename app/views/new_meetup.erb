@@ -1,15 +1,15 @@
 <form id="meetup_form" action= "/new_meetup" method="post">
   <!-- name of meetup -->
-  <label for="name">Meetup Name: </label>
-  <input type="text" id="name" name="name" placeholder="Name" required/>
+  <label for="name" >Meetup Name: </label>
+  <input type="text" id="name" name="name" placeholder="Name" required value="<%= @meetup.name%>"/>
   <br>
   <!-- location of meetup -->
   <label for="location">location </label>
-  <input type="text" id="location" name="location" placeholder="location" required/>
+  <input type="text" id="location" name="location" placeholder="location" required value="<%= @meetup.location%>"/>
   <br>
   <!-- description of meetup -->
   <label for="description">Meetup Description: </label>
-  <textarea rows="4" cols="50" form="meetup_form" name="description" id="description" required ></textarea>
+  <textarea rows="4" cols="50" form="meetup_form" name="description" id="description" required><%= @meetup.description%></textarea>
   <br>
   <input type="submit"/>
 

@@ -26,27 +26,29 @@ get '/' do
 end
 
 get '/new_meetup' do
+  @meetup = Meetup.new()
   erb :new_meetup
 end
 
 post '/new_meetup' do
   @user_id = session[:user_id]
-  if @user_id == nil
-    authenticate!
-    erb :new_meetup
-  else
-    meetup = Meetup.new()
-    meetup.name = params["name"]
-    meetup.description = params["description"]
-    meetup.location = params["location"]
-    attendee = Attendee.new()
-    attendee.user_id = @user_id
-    attendee.meetup_id = meetup.id
-    attendee.creator = true
-    meetup.save
+  @meetup = Meetup.new()
+  @meetup.name = params["name"]
+  @meetup.description = params["description"]
+  @meetup.location = params["location"]
+  attendee = Attendee.new()
+  attendee.user_id = @user_id
+  attendee.meetup_id = @meetup.id
+  attendee.creator = true
+
+  if @user_id != nil
+    @meetup.save
     attendee.save
     flash[:notice] = "Your meetup was succesfully created"
     redirect "/meetups/#{meetup.id}"
+  else
+    flash[:notice] = 'You need to sign in if you want to do that!'
+    erb :new_meetup
   end
 end
 
