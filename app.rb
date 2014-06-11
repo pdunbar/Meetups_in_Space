@@ -62,6 +62,7 @@ post '/join_meetup' do
     attendee.user_id = @user_id
     attendee.meetup_id = params["meetup_id"]
     attendee.creator = false
+    attendee.save
     redirect "/meetups/#{attendee.meetup_id}"
   end
 end
@@ -70,6 +71,7 @@ get '/meetups/:id' do
   @user_id = session[:user_id]
   meetup_id = params[:id]
   @meetup = Meetup.find(meetup_id)
+  @attendee = Attendee.find(meetup_id)
   erb :meetup
 end
 

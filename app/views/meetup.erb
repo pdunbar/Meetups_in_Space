@@ -5,8 +5,18 @@
       <%=attr_name%>: <%= attr_value%>
     </p>
   <% end %>
-  <br />
-  <form id="join_meetup" action="/join_meetup" method="post">
-    <input type="submit">
-  </form>
 </ul>
+<br />
+
+<ul>
+  <% @attendee.each do |attendee| %>
+    <p>
+      <%=attendee.name%>
+    </p>
+  <% end %>
+</ul>
+<br />
+
+<form id="join_meetup" action="/join_meetup" method="post">
+  <input type="submit">
+</form>
