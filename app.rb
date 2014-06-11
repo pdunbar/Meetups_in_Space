@@ -39,8 +39,13 @@ post '/new_meetup' do
     meetup.name = params["name"]
     meetup.description = params["description"]
     meetup.location = params["location"]
-    meetup.attendees.creator = true
+    attendee = Attendee.new()
+    attendee.user_id = @user_id
+    attendee.meetup_id = meetup.id
+    attendee.creator = true
     meetup.save
+    attendee.save
+    flash[:notice] = "Your meetup was succesfully created"
     redirect "/meetups/#{meetup.id}"
   end
 end
