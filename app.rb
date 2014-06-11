@@ -25,33 +25,37 @@ get '/' do
   erb :index
 end
 
+# GET /meetups/new
 get '/new_meetup' do
+  authenticate!
+
   @meetup = Meetup.new()
   erb :new_meetup
 end
 
+# POST /meetups
 post '/new_meetup' do
+  authenticate!
+
   @user_id = session[:user_id]
   @meetup = Meetup.new()
   @meetup.name = params["name"]
   @meetup.description = params["description"]
   @meetup.location = params["location"]
+  @meetup.save
+
   attendee = Attendee.new()
   attendee.user_id = @user_id
   attendee.meetup_id = @meetup.id
   attendee.creator = true
+  attendee.save
 
-  if @user_id != nil
-    @meetup.save
-    attendee.save
-    flash[:notice] = "Your meetup was succesfully created"
-    redirect "/meetups/#{meetup.id}"
-  else
-    flash[:notice] = 'You need to sign in if you want to do that!'
-    erb :new_meetup
-  end
+  flash[:notice] = "Your meetup was succesfully created"
+  redirect "/meetups/#{@meetup.id}"
+
 end
 
+# POST /meetups/:meetup_id/attendees
 post '/join_meetup' do
   @user_id = session[:user_id]
   if @user_id == nil
@@ -60,9 +64,10 @@ post '/join_meetup' do
   else
     attendee = Attendee.new()
     attendee.user_id = @user_id
-    attendee.meetup_id = params["meetup_id"]
+    attendee.meetup_id = session[:meetup_id]
     attendee.creator = false
     attendee.save
+    binding.pry
     redirect "/meetups/#{attendee.meetup_id}"
   end
 end
@@ -70,8 +75,10 @@ end
 get '/meetups/:id' do
   @user_id = session[:user_id]
   meetup_id = params[:id]
+  session[:meetup_id] = meetup_id
   @meetup = Meetup.find(meetup_id)
-  @attendee = Attendee.find(meetup_id)
+  @attendees = Attendee.where(meetup_id: @meetup.id)
+  #binding.pry
   erb :meetup
 end
 

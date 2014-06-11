@@ -7,16 +7,15 @@
   <% end %>
 </ul>
 <br />
-
+<h2>Attendees</h2>
 <ul>
-  <% @attendee.each do |attendee| %>
+  <% @attendees.each do |attendee| %>
     <p>
-      <%=attendee.name%>
+      <%=attendee.user.username%>
     </p>
   <% end %>
 </ul>
 <br />
-
 <form id="join_meetup" action="/join_meetup" method="post">
   <input type="submit">
 </form>
