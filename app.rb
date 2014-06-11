@@ -32,13 +32,14 @@ end
 post '/new_meetup' do
   @user_id = session[:user_id]
   if @user_id == nil
+    authenticate!
     erb :new_meetup
   else
     meetup = Meetup.new()
     meetup.name = params["name"]
     meetup.description = params["description"]
     meetup.location = params["location"]
-    meetup.user_id = @user_id
+    meetup.attendees.creator = true
     meetup.save
     redirect "/meetups/#{meetup.id}"
   end
