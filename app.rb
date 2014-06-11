@@ -52,12 +52,24 @@ post '/new_meetup' do
   end
 end
 
+post '/join_meetup' do
+  @user_id = session[:user_id]
+  if @user_id == nil
+    authenticate!
+    erb :meetup
+  else
+    attendee = Attendee.new()
+    attendee.user_id = @user_id
+    attendee.meetup_id = params["meetup_id"]
+    attendee.creator = false
+    redirect "/meetups/#{attendee.meetup_id}"
+  end
+end
 
 get '/meetups/:id' do
   @user_id = session[:user_id]
   meetup_id = params[:id]
   @meetup = Meetup.find(meetup_id)
-  #binding.pry
   erb :meetup
 end
 
