@@ -65,9 +65,7 @@ post '/join_meetup' do
     attendee = Attendee.new()
     attendee.user_id = @user_id
     attendee.meetup_id = session[:meetup_id]
-    attendee.creator = false
     attendee.save
-    binding.pry
     redirect "/meetups/#{attendee.meetup_id}"
   end
 end
